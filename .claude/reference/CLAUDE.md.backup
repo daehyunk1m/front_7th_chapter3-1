@@ -1,0 +1,523 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+This is a monorepo project for learning UI component modularization and design systems. It contains two packages demonstrating the migration from a legacy design system (`before`) to a modern design system (`after`) using TailwindCSS, CVA (Class Variance Authority), shadcn/ui, and Storybook.
+
+**Purpose**: Understanding the problems with legacy systems and learning modern design system practices including:
+- The concept of Atomic Design vs. practical folder structure
+- Migration from CSS to TailwindCSS + CVA
+- Component API consistency
+- Accessibility and type safety
+
+## Communication Guidelines
+
+### Language Preference
+- **항상 한글로 답변해주세요**: All responses should be in Korean unless specifically requested otherwise.
+
+### MCP (Model Context Protocol) Usage
+- **MCP를 적극 활용하세요**: When MCP tools can provide more accurate, up-to-date, or relevant information, they MUST be used.
+- Examples of when to use MCP:
+  - Looking up library documentation (Context7)
+  - Accessing IDE diagnostics
+  - Executing code in Jupyter notebooks
+  - Web automation with Playwright
+
+### Interactive Clarification
+- **필요한 정보를 요청하세요**: If additional information would help provide a better answer, proactively ask the user for clarification.
+- Don't make assumptions when requirements are unclear
+- Use the AskUserQuestion tool when facing ambiguous implementation choices
+
+### Documentation Reference
+- **`.claude/` 폴더를 참고하세요**: When looking for reference documentation or creating project-specific documentation:
+  - Check `.claude/doc/` directory first
+  - Current documentation includes:
+    - `chapter_goal.md`: Project objectives, requirements, and implementation guidelines
+  - This is the primary source for project context and guidelines
+
+## Task Manager (Coaching Mode)
+
+### Overview
+This project includes a coaching-style task manager that helps learners complete Chapter3-1 independently. The task manager should intervene automatically when needed, without explicit invocation.
+
+### Task Manager Location
+- **Main Guide**: `.claude/commands/task-manager/TASK_MANAGER.md`
+- **Workflows**: `.claude/commands/task-manager/WORKFLOWS.md`
+- **Templates**: `.claude/commands/task-manager/templates/`
+- **Task Data**: `.claude/tasks/`
+
+### When to Activate Task Manager
+
+The task manager should **automatically intervene** when the user:
+
+1. **Asks course-related questions:**
+   - "어떻게 시작해야 하나요?" / "How should I start?"
+   - "이 컴포넌트를 어떻게 만들어야 하나요?" / "How do I create this component?"
+   - "다음에 뭘 해야 하나요?" / "What should I do next?"
+
+2. **Is stuck or blocked:**
+   - "이게 왜 안되죠?" / "Why isn't this working?"
+   - "에러가 나는데 어떻게 해결하나요?" / "How do I fix this error?"
+   - Reports difficulties or confusion
+
+3. **Is lost or unsure:**
+   - "지금 뭘 하고 있는 거죠?" / "What am I doing?"
+   - "이게 맞는 방향인가요?" / "Is this the right direction?"
+   - Asks for direction or orientation
+
+4. **Requests validation:**
+   - "이렇게 하면 되나요?" / "Is this correct?"
+   - "리뷰해주세요" / "Please review"
+   - Asks for feedback on their work
+
+### Coaching Principles
+
+**⛔ DO NOT:**
+- Write code implementations directly
+- Provide immediate answers
+- Solve problems for the learner
+- Use the Task tool to spawn sub-agents for implementation
+
+**✅ DO:**
+- Ask Socratic questions to guide thinking
+- Provide hints and direction
+- Offer checklists and considerations
+- Give guidance through comments
+- Suggest next steps
+- Progressively increase hint specificity when stuck
+
+### Coaching Strategy
+
+**Read the coaching guide first:**
+When task manager intervention is needed, reference `.claude/commands/task-manager/TASK_MANAGER.md` for detailed coaching strategies and examples.
+
+**Progressive hint levels:**
+1. **Level 1** - Direction: Point to relevant concepts/documentation
+2. **Level 2** - Structure: Provide structural hints and patterns
+3. **Level 3** - Specific: Give step-by-step guidance
+4. **Level 4** - Example: Show reference examples (as last resort)
+
+**Example Response Pattern:**
+```markdown
+❓ **생각해볼 질문들:**
+- (Guiding questions)
+
+💡 **힌트:**
+- (Hints based on current level)
+
+📚 **참고 문서:**
+- (Relevant documentation)
+
+🎯 **제안하는 순서:**
+- (Suggested steps)
+```
+
+### Task Tracking
+
+- Track progress in `.claude/tasks/` directory
+- Use TodoWrite tool to maintain visible progress
+- Reference `.claude/tasks/breakdown.md` for task breakdown
+- Update `.claude/tasks/progress.json` for overall project status
+
+### Reference Priority
+
+When guiding the learner, reference in this order:
+1. `.claude/doc/chapter_goal.md` - Course objectives
+2. `CLAUDE.md` - Project architecture
+3. `.claude/tasks/breakdown.md` - Task breakdown
+4. `packages/before/` - Legacy examples
+5. External docs - shadcn/ui, TailwindCSS, CVA
+
+### Integration with Workflows
+
+The task manager follows workflows defined in `.claude/commands/task-manager/WORKFLOWS.md`:
+- Workflow 1: Getting Started
+- Workflow 2: Before Package Analysis
+- Workflow 3: shadcn/ui Installation & Learning
+- Workflow 4: Component Migration
+- Workflow 5: Storybook Documentation
+- Workflow 6: Final Verification
+
+## Learning Session Logger
+
+### Overview
+This project includes an automatic learning session logger that records the learning journey in Notion-formatted markdown files. The logger activates when the user indicates session completion.
+
+### Session Logger Location
+- **Main Guide**: `.claude/commands/task-manager/session-logger.md`
+- **Current Session**: `.claude/tasks/current-session.json`
+- **Session Records**: `.claude/tasks/learning-sessions/`
+- **Template**: `.claude/commands/task-manager/templates/notion-session-template.md`
+
+### When to Activate Session Logger
+
+The session logger should **automatically activate** when the user indicates learning session end:
+
+**Trigger Keywords:**
+- "오늘은 여기까지" / "That's it for today"
+- "학습 마무리" / "Wrap up learning"
+- "세션 종료" / "End session"
+- "오늘 작업 끝" / "Done for today"
+- "학습 끝" / "Learning complete"
+- "마무리할게요" / "I'll finish up"
+
+**When triggered:**
+1. Confirm session end with user
+2. Analyze session data (conversations, code, commits)
+3. Generate Notion-formatted markdown
+4. Save to `.claude/tasks/learning-sessions/YYYY-MM-DD-session-N.md`
+5. Display summary and file location
+
+### What to Collect
+
+**1. Conversations:**
+- Questions asked by user
+- Key concepts explained
+- Problems encountered and solutions
+- Important insights and learnings
+
+**2. Code Changes:**
+- Git commits since last session
+- Files created/modified
+- Important code snippets (10-30 lines)
+- Purpose and learnings from each change
+
+**3. Progress:**
+- Tasks completed
+- Tasks in progress
+- Time spent (estimated vs actual)
+- Phase progression
+
+**4. Metadata:**
+- Session start/end time
+- Total duration
+- Statistics (questions, commits, problems solved)
+
+### Session Recording Process
+
+**Step 1: Session Tracking**
+```markdown
+Implicit tracking:
+- Start: First user interaction
+- During: Record all conversations and activities
+- End: Trigger keyword detected
+```
+
+**Step 2: Data Collection**
+```markdown
+1. Read current-session.json for last session end time
+2. Analyze conversations since last session
+3. Extract Git commits: git log --since="<last_time>"
+4. Identify code changes: git diff
+5. Check task progress: progress.json
+```
+
+**Step 3: Content Analysis**
+```markdown
+Questions:
+- Identify queries (keywords: "어떻게", "왜", "?")
+- Summarize answers
+- Extract related concepts
+
+Concepts:
+- Keywords: CVA, TailwindCSS, shadcn/ui, etc.
+- Code examples provided
+- User understanding indicators
+
+Problems:
+- Keywords: "안돼요", "에러", "문제"
+- Solution attempts
+- Final resolution
+```
+
+**Step 4: Markdown Generation**
+```markdown
+1. Load template: notion-session-template.md
+2. Replace variables with collected data
+3. Format sections (questions, concepts, code, problems)
+4. Generate statistics
+5. Create PR/retrospective notes
+```
+
+**Step 5: File Management**
+```markdown
+Filename: YYYY-MM-DD-session-N.md
+- YYYY-MM-DD: Session date
+- N: Session number for that day
+
+Location: .claude/tasks/learning-sessions/
+
+Index: Update README.md with session count
+```
+
+### Notion Markdown Format
+
+The generated markdown includes:
+
+1. **Session Info**: Date, time, duration, phase, tasks
+2. **Goals**: Session objectives
+3. **Questions & Answers**: Main Q&A with summaries
+4. **Concepts Learned**: Key technical concepts with examples
+5. **Code Written**: File changes with snippets
+6. **Problems Solved**: Issues encountered and resolutions
+7. **Git Commits**: Commit history table
+8. **Completed Tasks**: Checklist of finished items
+9. **Summary**: Top 3 learnings and next actions
+10. **Statistics**: Quantitative metrics
+11. **References**: Links and resources
+12. **PR/Retro Notes**: One-liner and action items
+
+### Usage Example
+
+**User signals end:**
+> "오늘은 여기까지!"
+
+**Assistant response:**
+```markdown
+학습 세션을 마무리할까요?
+
+📊 오늘 세션 요약:
+- 진행 시간: 2시간 30분
+- 질문: 5개
+- 완료 태스크: TASK-001, TASK-002
+- Git 커밋: 2개
+
+Notion 형식의 학습 기록을 생성하시겠습니까?
+```
+
+**After confirmation:**
+```markdown
+✅ 학습 세션이 기록되었습니다!
+
+📁 파일: .claude/tasks/learning-sessions/2025-11-24-session-1.md
+
+📊 통계:
+  - 질문: 5개
+  - 학습 개념: 3개
+  - 커밋: 2개
+  - 소요 시간: 2시간 30분
+
+이 내용은 PR/회고 작성 시 참고하실 수 있습니다!
+```
+
+### Security & Privacy
+
+**Auto-filter sensitive data:**
+- API keys, tokens (pattern: `[A-Za-z0-9]{32,}`)
+- Environment variables
+- Passwords, secrets
+- Email addresses (if sensitive)
+
+**Replacement:**
+```
+API_KEY=abc123... → API_KEY=***
+token: 'xyz456...' → token: '***'
+```
+
+### Integration with Task Manager
+
+**Automatic coordination:**
+- Session logger tracks what Task Manager teaches
+- Task completion automatically recorded
+- Problem-solution pairs captured
+- Concept explanations preserved
+
+**Data flow:**
+```
+User ←→ Task Manager ←→ Session Logger
+                ↓              ↓
+         Coaching         Recording
+                ↓              ↓
+         Learning      Notion Markdown
+```
+
+### Best Practices
+
+**For users:**
+1. Clearly indicate session end
+2. Mention key learnings explicitly
+3. Share problem-solving process
+4. Divide long sessions (2-3 hours recommended)
+
+**For assistant:**
+1. Track unobtrusively in background
+2. Provide clear summaries
+3. Prioritize important content
+4. Make PR/retro writing easy
+
+## Development Commands
+
+### Root Level (Monorepo)
+```bash
+# Install dependencies (uses pnpm)
+pnpm install
+
+# Development
+pnpm dev                  # Run 'before' package dev server
+pnpm dev:before          # Run legacy system
+pnpm dev:after           # Run modern system
+
+# Build
+pnpm build               # Build all packages
+pnpm build:before        # Build legacy system only
+pnpm build:after         # Build modern system only
+
+# Testing
+pnpm test                # Run tests in watch mode (all packages)
+pnpm test:run            # Run tests once (all packages)
+pnpm test:before         # Test legacy system
+pnpm test:after          # Test modern system
+pnpm test:run:before     # Run legacy tests once
+pnpm test:run:after      # Run modern tests once
+
+# Linting
+pnpm lint                # Lint all packages
+
+# Storybook (after package only)
+pnpm storybook           # Run Storybook dev server
+pnpm build-storybook     # Build Storybook for production
+```
+
+### Package Level
+Each package (`packages/before/` and `packages/after/`) can be run independently:
+```bash
+cd packages/before
+pnpm dev                 # Development server
+pnpm build              # Production build
+pnpm test               # Run tests in watch mode
+pnpm test:ui            # Run tests with Vitest UI
+pnpm test:run           # Run tests once
+pnpm lint               # Lint code
+pnpm preview            # Preview production build
+```
+
+## Architecture
+
+### Monorepo Structure
+```
+packages/
+├── before/              # Legacy design system (analyze this)
+│   └── src/
+│       ├── components/
+│       │   ├── atoms/      # Button, Badge
+│       │   ├── molecules/  # FormInput, FormSelect, FormTextarea, FormCheckbox
+│       │   └── organisms/  # Header, Card, Modal, Table, Alert
+│       ├── pages/          # ManagementPage
+│       ├── services/       # userService, postService
+│       └── styles/         # CSS files
+│
+└── after/               # Modern design system (implement here)
+    └── src/
+        ├── components/     # Target structure (shadcn/ui style: flat ui/ folder)
+        ├── tokens/         # Design tokens (to be added)
+        ├── hooks/          # Custom hooks (to be added)
+        └── stories/        # Storybook stories (to be added)
+```
+
+### Key Architectural Concepts
+
+**Legacy System Issues (before package)**:
+1. **Inconsistent Component APIs**: Each component uses different prop names (`width` vs `size`, `helpText` vs `help` vs `description`)
+2. **Mixed Styling Approaches**: Inline styles, CSS Modules, and hardcoded color values coexist
+3. **UI Components with Business Logic**: Components like `Button.tsx` contain domain-specific logic (checking user roles, post status)
+4. **Poor Type Safety**: Loose type definitions, manual validation
+5. **Accessibility Issues**: Incomplete ARIA labels, limited keyboard navigation
+
+**Modern System Goals (after package)**:
+1. **Consistent APIs**: Unified prop naming conventions
+2. **TailwindCSS + CVA**: Utility-first styling with variant patterns
+3. **Separation of Concerns**: UI components free from business logic
+4. **Type Safety**: Strict TypeScript with VariantProps
+5. **Accessibility**: Full ARIA support via Radix UI primitives
+
+### Data Layer
+
+Both packages use **localStorage-based services** for user and post management:
+- `userService`: CRUD operations for User entities
+- `postService`: CRUD operations for Post entities + status actions (publish, archive, restore)
+
+**User Interface**:
+- `id`, `username`, `email`, `role` (admin/moderator/user), `status` (active/inactive/suspended)
+
+**Post Interface**:
+- `id`, `title`, `content`, `author`, `category`, `status` (draft/published/archived), `views`
+
+Services include validation (e.g., duplicate username check, minimum title length).
+
+### Testing
+
+- **Framework**: Vitest with React Testing Library
+- **Setup**: `src/test/setup.ts` configures jsdom environment
+- **Tests**: Located in `__tests__/` directories (e.g., `ManagementPage.test.tsx`)
+- **Commands**: Use `pnpm test` for watch mode, `pnpm test:ui` for visual interface
+
+## Important Implementation Notes
+
+### When Working on the "after" Package
+
+1. **Use shadcn/ui components**: The goal is to use shadcn/ui CLI to add components:
+   ```bash
+   cd packages/after
+   npx shadcn-ui@latest add button
+   npx shadcn-ui@latest add input
+   # etc.
+   ```
+
+2. **Component Structure**: Use flat `components/ui/` folder (like shadcn/ui), not Atomic Design folder hierarchy
+
+3. **Variant Pattern with CVA**: Define variants using class-variance-authority:
+   ```typescript
+   import { cva, type VariantProps } from "class-variance-authority";
+
+   const buttonVariants = cva(
+     "base-classes",
+     {
+       variants: {
+         variant: { primary: "...", secondary: "..." },
+         size: { sm: "...", md: "..." }
+       },
+       defaultVariants: { variant: "primary", size: "md" }
+     }
+   );
+   ```
+
+4. **Separation of Concerns**: Keep UI components pure. Business logic should remain in page components or services.
+
+5. **Storybook Stories**: Create stories for each component to document usage and variants
+
+### Migration Strategy
+
+When migrating from `before` to `after`:
+1. Identify the component's **pure UI responsibilities**
+2. Extract **business logic** to page level or custom hooks
+3. Define **variants** instead of conditional styling
+4. Ensure **type safety** with proper TypeScript interfaces
+5. Add **accessibility** features using Radix UI primitives
+6. Write **Storybook stories** for documentation
+
+### Key Files to Reference
+
+- `packages/before/src/components/atoms/Button.tsx`: Example of UI component with mixed concerns
+- `packages/before/src/pages/ManagementPage.tsx`: Main application page showing CRUD operations
+- `packages/before/src/services/`: Data layer with localStorage-based persistence
+
+## Technology Stack
+
+- **React 19** with TypeScript
+- **Vite**: Build tool and dev server
+- **Vitest**: Testing framework
+- **pnpm**: Package manager (monorepo workspaces)
+- **TailwindCSS v4**: Utility-first CSS (target for "after")
+- **CVA**: Variant management (target for "after")
+- **shadcn/ui**: Component library based on Radix UI (target for "after")
+- **Storybook**: Component documentation (target for "after")
+
+## Common Pitfalls
+
+1. **Don't copy Atomic Design folder structure blindly**: The concept is valuable, but flat structure is more practical
+2. **Avoid mixing styling approaches**: In "after" package, use TailwindCSS exclusively
+3. **Don't put business logic in UI components**: Keep them pure and reusable
+4. **Remember to validate**: Services include validation; ensure UI reflects validation errors properly
+5. **Type safety matters**: Use strict TypeScript, avoid `any` types
