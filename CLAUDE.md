@@ -52,6 +52,18 @@ This is a monorepo project for learning UI component modularization and design s
     - `chapter_goal.md`: Project objectives, requirements, and implementation guidelines
   - This is the primary source for project context and guidelines
 
+### Learning Session Continuity
+
+- **이전 세션 로그를 자동으로 참고하세요**: When a user starts a new learning session:
+
+  1. Check `.claude/tasks/learning-sessions/` for the most recent session log
+  2. Read the last session file (e.g., `2025-11-24-session-1.md`)
+  3. Review the "다음 세션 계획" section at the end
+  4. Start the new session by continuing from where the user left off
+  5. Reference completed tasks and learned concepts to provide context-aware coaching
+
+- **Purpose**: Maintain learning continuity across multiple sessions and avoid asking users to repeat context
+
 ## Task Manager (Coaching Mode)
 
 **Purpose:** Coach learners to solve Chapter3-1 independently (no direct implementation).

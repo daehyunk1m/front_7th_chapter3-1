@@ -78,11 +78,13 @@ Level 4: 예시 (최후)
 
 ## 📂 참조 우선순위
 
-1. `.claude/doc/chapter_goal.md` - 과제 목표
-2. `CLAUDE.md` - 프로젝트 아키텍처
-3. `.claude/tasks/breakdown.md` - 태스크 목록
-4. `packages/before/` - 레거시 예시
-5. 외부 문서 - shadcn/ui, TailwindCSS, CVA
+1. **`.github/pull_request_template.md`** - 최우선 과제 목표 및 요구사항
+2. `.claude/doc/chapter_goal.md` - 상세 기술 목표
+3. `.claude/tasks/learning-sessions/` - 이전 학습 세션 로그 (연속성)
+4. `CLAUDE.md` - 프로젝트 아키텍처
+5. `.claude/tasks/breakdown.md` - 태스크 목록
+6. `packages/before/` - 레거시 예시
+7. 외부 문서 - shadcn/ui, TailwindCSS, CVA
 
 ## 🔗 관련 파일
 

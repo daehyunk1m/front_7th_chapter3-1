@@ -8,7 +8,6 @@ export const App: React.FC = () => {
     <div style={{ minHeight: "100vh", backgroundColor: "#f7fafc" }}>
       <Header />
       <main>
-        <div className='bg-blue-500 text-white p-4'>test</div>
         <ManagementPage />
       </main>
     </div>
