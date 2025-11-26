@@ -1,4 +1,2 @@
-import { UserTable } from "./userTable";
-import { PostTable } from "./PostTable";
-
-export { UserTable, PostTable };
+export { PostTable } from "./PostTable";
+export { UserTable } from "./UserTable";
