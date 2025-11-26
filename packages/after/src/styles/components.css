@@ -3,8 +3,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Global reset - exclude buttons for shadcn/ui compatibility */
-*:not(button) {
+/* Global reset - exclude buttons and spans for shadcn/ui compatibility */
+*:not(button):not(span) {
   margin: 0;
   padding: 0;
 }
@@ -222,8 +222,12 @@
   padding: 20px;
 }
 
-/* Badge styles */
-.badge {
+/* ========================================
+   Badge styles - MIGRATED to shadcn/ui
+   See: src/components/ui/badge.tsx
+   ======================================== */
+
+/* .badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -279,7 +283,7 @@
   padding: 0px 10px;
   font-size: 0.8125rem;
   height: 24px;
-}
+} */
 
 /* Alert styles */
 .alert {
@@ -667,6 +671,12 @@
   --color-danger: var(--danger);
   --color-danger-foreground: var(--danger-foreground);
   --color-danger-hover: var(--danger-hover);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-hover: var(--warning-hover);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-hover: var(--info-hover);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
@@ -714,6 +724,14 @@
   --danger: #d32f2f;
   --danger-hover: #c62828;
   --danger-foreground: #fff;
+
+  --warning: #f57c00;
+  --warning-hover: #ef6c00;
+  --warning-foreground: #fff;
+
+  --info: #0288d1;
+  --info-hover: #0277bd;
+  --info-foreground: #fff;
 
   --muted: oklch(0.968 0.007 247.896);
   --muted-foreground: oklch(0.554 0.046 257.417);

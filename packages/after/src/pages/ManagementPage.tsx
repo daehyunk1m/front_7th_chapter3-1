@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Badge } from "../components/atoms";
 import { Button } from "@/components/ui/button";
-import { Alert, Table, Modal } from "../components/organisms";
-import { FormInput, FormSelect, FormTextarea } from "../components/molecules";
+import { Alert, Table, Modal } from "../_leagacy/organisms";
+import { FormInput, FormSelect, FormTextarea } from "../_leagacy/molecules";
 import { userService } from "../services/userService";
 import { postService } from "../services/postService";
 import type { User } from "../services/userService";

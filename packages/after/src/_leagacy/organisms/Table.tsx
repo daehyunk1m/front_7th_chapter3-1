@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Badge } from "../atoms/Badge";
+// import { Badge } from "../atoms/Badge";
 // import { Button } from '../atoms/Button';
-import { Button } from "../ui/button";
-
+import { Badge } from "../../components/ui/badge";
+import { Button } from "../../components/ui/button";
 interface Column {
   key: string;
   header: string;
@@ -116,13 +116,40 @@ export const Table: React.FC<TableProps> = ({
     // 도메인별 특수 렌더링
     if (entityType === "user") {
       if (columnKey === "role") {
-        return <Badge userRole={value} showIcon />;
+        // userRole → variant 매핑
+        const roleVariantMap: Record<string, "danger" | "warning" | "primary" | "secondary"> = {
+          admin: "danger",
+          moderator: "warning",
+          user: "primary",
+          guest: "secondary",
+        };
+        const roleLabelMap: Record<string, string> = {
+          admin: "관리자",
+          moderator: "운영자",
+          user: "사용자",
+          guest: "게스트",
+        };
+        return (
+          <Badge variant={roleVariantMap[value] || "primary"}>{roleLabelMap[value] || value}</Badge>
+        );
       }
       if (columnKey === "status") {
-        // User status를 Badge status로 변환
-        const badgeStatus =
-          value === "active" ? "published" : value === "inactive" ? "draft" : "rejected";
-        return <Badge status={badgeStatus} showIcon />;
+        // User status → variant 매핑
+        const statusVariantMap: Record<string, "success" | "warning" | "danger"> = {
+          active: "success",
+          inactive: "warning",
+          suspended: "danger",
+        };
+        const statusLabelMap: Record<string, string> = {
+          active: "활성",
+          inactive: "비활성",
+          suspended: "정지",
+        };
+        return (
+          <Badge variant={statusVariantMap[value] || "secondary"}>
+            {statusLabelMap[value] || value}
+          </Badge>
+        );
       }
       if (columnKey === "lastLogin") {
         return value || "-";
@@ -143,22 +170,35 @@ export const Table: React.FC<TableProps> = ({
 
     if (entityType === "post") {
       if (columnKey === "category") {
-        const type =
-          value === "development"
-            ? "primary"
-            : value === "design"
-              ? "info"
-              : value === "accessibility"
-                ? "danger"
-                : "secondary";
+        // category → variant 매핑
+        const categoryVariantMap: Record<string, "primary" | "info" | "danger" | "secondary"> = {
+          development: "primary",
+          design: "info",
+          accessibility: "danger",
+        };
         return (
-          <Badge type={type} pill>
+          <Badge variant={categoryVariantMap[value] || "secondary"} pill>
             {value}
           </Badge>
         );
       }
       if (columnKey === "status") {
-        return <Badge status={value} showIcon />;
+        // Post status → variant 매핑
+        const statusVariantMap: Record<string, "success" | "warning" | "secondary"> = {
+          published: "success",
+          draft: "warning",
+          archived: "secondary",
+        };
+        const statusLabelMap: Record<string, string> = {
+          published: "게시됨",
+          draft: "임시저장",
+          archived: "보관됨",
+        };
+        return (
+          <Badge variant={statusVariantMap[value] || "secondary"}>
+            {statusLabelMap[value] || value}
+          </Badge>
+        );
       }
       if (columnKey === "views") {
         return value?.toLocaleString() || "0";
