@@ -19,7 +19,7 @@ export const UserTable: React.FC<UserTableProps> = ({
   striped = false,
   hover = false,
 }) => {
-  const columns: Column[] = [
+  const columns: Column<User>[] = [
     { key: "id", header: "ID", width: "60px" },
     { key: "username", header: "사용자명", width: "150px" },
     { key: "email", header: "이메일" },
@@ -27,7 +27,7 @@ export const UserTable: React.FC<UserTableProps> = ({
       key: "role",
       header: "역할",
       width: "120px",
-      render: (value: string, _) => {
+      render: (value) => {
         // userRole → variant 매핑
         const roleVariantMap: Record<string, "danger" | "warning" | "primary" | "secondary"> = {
           admin: "danger",
@@ -50,7 +50,7 @@ export const UserTable: React.FC<UserTableProps> = ({
       key: "status",
       header: "상태",
       width: "120px",
-      render: (value: string, _) => {
+      render: (value) => {
         // User status → variant 매핑
         const statusVariantMap: Record<string, "success" | "warning" | "danger"> = {
           active: "success",
@@ -74,7 +74,7 @@ export const UserTable: React.FC<UserTableProps> = ({
       key: "lastLogin",
       header: "마지막 로그인",
       width: "140px",
-      render: (value: string, _) => {
+      render: (value) => {
         return value || "-";
       },
     },
@@ -82,7 +82,7 @@ export const UserTable: React.FC<UserTableProps> = ({
       key: "actions",
       header: "관리",
       width: "200px",
-      render: (_, row: User) => {
+      render: (_, row) => {
         return (
           <div className="flex gap-2">
             <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
@@ -96,5 +96,5 @@ export const UserTable: React.FC<UserTableProps> = ({
       },
     },
   ];
-  return <Table columns={columns} data={data} striped={striped} hover={hover} />;
+  return <Table<User> columns={columns} data={data} striped={striped} hover={hover} />;
 };

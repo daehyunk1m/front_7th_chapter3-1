@@ -25,7 +25,7 @@ export const PostTable: React.FC<PostTableProps> = ({
   striped = false,
   hover = false,
 }) => {
-  const columns: Column[] = [
+  const columns: Column<Post>[] = [
     { key: "id", header: "ID", width: "60px" },
     { key: "title", header: "제목" },
     { key: "author", header: "작성자", width: "120px" },
@@ -33,7 +33,7 @@ export const PostTable: React.FC<PostTableProps> = ({
       key: "category",
       header: "카테고리",
       width: "140px",
-      render: (value: string, _) => {
+      render: (value) => {
         // category → variant 매핑
         const categoryVariantMap: Record<string, "primary" | "info" | "danger" | "secondary"> = {
           development: "primary",
@@ -51,7 +51,7 @@ export const PostTable: React.FC<PostTableProps> = ({
       key: "status",
       header: "상태",
       width: "120px",
-      render: (value: string, _) => {
+      render: (value) => {
         // Post status → variant 매핑
         const statusVariantMap: Record<string, "success" | "warning" | "secondary"> = {
           published: "success",
@@ -74,8 +74,8 @@ export const PostTable: React.FC<PostTableProps> = ({
       key: "views",
       header: "조회수",
       width: "100px",
-      render: (value: string, _) => {
-        return value?.toLocaleString() || "0";
+      render: (value) => {
+        return typeof value === "number" ? value.toLocaleString() : "0";
       },
     },
     { key: "createdAt", header: "작성일", width: "120px" },
@@ -83,7 +83,7 @@ export const PostTable: React.FC<PostTableProps> = ({
       key: "actions",
       header: "관리",
       width: "250px",
-      render: (_, row: Post) => {
+      render: (_, row) => {
         return (
           <div className="flex gap-2 flex-wrap">
             <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
@@ -113,5 +113,5 @@ export const PostTable: React.FC<PostTableProps> = ({
     },
   ];
 
-  return <Table columns={columns} data={data} striped={striped} hover={hover} />;
+  return <Table<Post> columns={columns} data={data} striped={striped} hover={hover} />;
 };

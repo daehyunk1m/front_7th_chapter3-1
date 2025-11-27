@@ -133,7 +133,7 @@ export const CustomRendering: Story = {
       {
         key: "role",
         header: "Role",
-        render: (value: string) => {
+        render: (value) => {
           const variant =
             value === "Admin" ? "danger" :
             value === "Moderator" ? "warning" : "secondary";
@@ -143,7 +143,7 @@ export const CustomRendering: Story = {
       {
         key: "status",
         header: "Status",
-        render: (value: string) => {
+        render: (value) => {
           const variant =
             value === "Active" ? "success" :
             value === "Inactive" ? "secondary" : "danger";
@@ -180,7 +180,7 @@ export const RowClickable: Story = {
     columns: sampleColumns,
     data: sampleData,
     hover: true,
-    onRowClick: (row) => alert(`Clicked: ${row.name}`),
+    onRowClick: (row) => alert(`Clicked: ${(row as { name: string }).name}`),
   },
 };
 
@@ -202,7 +202,7 @@ export const FullFeatured: Story = {
       {
         key: "role",
         header: "Role",
-        render: (value: string) => {
+        render: (value) => {
           const variant =
             value === "Admin" ? "danger" :
             value === "Moderator" ? "warning" : "secondary";
@@ -212,7 +212,7 @@ export const FullFeatured: Story = {
       {
         key: "status",
         header: "Status",
-        render: (value: string) => {
+        render: (value) => {
           const variant =
             value === "Active" ? "success" :
             value === "Inactive" ? "secondary" : "danger";

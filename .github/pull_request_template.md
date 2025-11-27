@@ -2,8 +2,8 @@
 
 ## 배포 페이지
 
-- Web:
-- Storybook:
+- Web: https://daehyunk1m.github.io/front_7th_chapter3-1/
+- Storybook: https://6928ba0a2bd985c8ecf19284-chdnrmlyvu.chromatic.com/
 
 ## 과제 목표
 

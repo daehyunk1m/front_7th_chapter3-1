@@ -49,15 +49,16 @@ const paginationButtonVariants = cva(
   }
 );
 
-export interface Column<T = Record<string, unknown>> {
+export interface Column<T = object> {
   key: string;
   header: string;
   width?: string;
   sortable?: boolean;
-  render?: (value: unknown, row: T) => React.ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  render?: (value: any, row: T) => React.ReactNode;
 }
 
-interface TableProps<T = Record<string, unknown>> extends VariantProps<typeof tableVariants> {
+interface TableProps<T = object> extends VariantProps<typeof tableVariants> {
   columns: Column<T>[];
   data?: T[];
   pageSize?: number;
@@ -66,7 +67,7 @@ interface TableProps<T = Record<string, unknown>> extends VariantProps<typeof ta
   onRowClick?: (row: T) => void;
 }
 
-export const Table = <T extends Record<string, unknown> = Record<string, unknown>>({
+export const Table = <T extends object = object>({
   columns,
   data = [],
   striped = false,
@@ -95,8 +96,8 @@ export const Table = <T extends Record<string, unknown> = Record<string, unknown
     setSortDirection(newDirection);
 
     const sorted = [...tableData].sort((a, b) => {
-      const aVal = a[columnKey];
-      const bVal = b[columnKey];
+      const aVal = (a as Record<string, unknown>)[columnKey];
+      const bVal = (b as Record<string, unknown>)[columnKey];
 
       if (typeof aVal === "number" && typeof bVal === "number") {
         return newDirection === "asc" ? aVal - bVal : bVal - aVal;
@@ -169,15 +170,16 @@ export const Table = <T extends Record<string, unknown> = Record<string, unknown
               className={onRowClick ? "cursor-pointer" : "cursor-default"}
               onClick={() => onRowClick?.(row)}
             >
-              {columns.map((column) => (
-                <TableCell key={column.key}>
-                  {column.render
-                    ? column.render(row[column.key], row)
-                    : React.isValidElement(row[column.key])
-                      ? row[column.key]
-                      : row[column.key]}
-                </TableCell>
-              ))}
+              {columns.map((column) => {
+                const value = (row as Record<string, unknown>)[column.key];
+                return (
+                  <TableCell key={column.key}>
+                    {column.render
+                      ? column.render(value, row)
+                      : String(value ?? "")}
+                  </TableCell>
+                );
+              })}
             </TableRow>
           ))}
         </TableBody>
