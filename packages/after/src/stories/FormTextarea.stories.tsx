@@ -33,7 +33,7 @@ const meta = {
 } satisfies Meta<typeof FormTextarea>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof FormTextarea>;
 
 // 기본 텍스트영역
 export const Default: Story = {

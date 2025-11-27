@@ -39,7 +39,7 @@ const meta = {
 } satisfies Meta<typeof FormInput>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof FormInput>;
 
 // 기본 입력 필드
 export const Default: Story = {

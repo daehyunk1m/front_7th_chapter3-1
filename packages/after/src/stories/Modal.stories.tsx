@@ -29,7 +29,7 @@ const meta = {
 } satisfies Meta<typeof Modal>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Modal>;
 
 // 기본 모달
 export const Default: Story = {

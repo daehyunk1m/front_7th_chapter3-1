@@ -49,24 +49,24 @@ const paginationButtonVariants = cva(
   }
 );
 
-export interface Column {
+export interface Column<T = Record<string, unknown>> {
   key: string;
   header: string;
   width?: string;
   sortable?: boolean;
-  render?: (value: any, row: any) => React.ReactNode;
+  render?: (value: unknown, row: T) => React.ReactNode;
 }
 
-interface TableProps extends VariantProps<typeof tableVariants> {
-  columns: Column[];
-  data?: any[];
+interface TableProps<T = Record<string, unknown>> extends VariantProps<typeof tableVariants> {
+  columns: Column<T>[];
+  data?: T[];
   pageSize?: number;
   searchable?: boolean;
   sortable?: boolean;
-  onRowClick?: (row: any) => void;
+  onRowClick?: (row: T) => void;
 }
 
-export const Table: React.FC<TableProps> = ({
+export const Table = <T extends Record<string, unknown> = Record<string, unknown>>({
   columns,
   data = [],
   striped = false,
@@ -76,8 +76,8 @@ export const Table: React.FC<TableProps> = ({
   searchable = false,
   sortable = false,
   onRowClick,
-}) => {
-  const [tableData, setTableData] = useState<any[]>(data);
+}: TableProps<T>) => {
+  const [tableData, setTableData] = useState<T[]>(data);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState("");

@@ -29,7 +29,7 @@ const meta = {
 } satisfies Meta<typeof FormSelect>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof FormSelect>;
 
 const defaultOptions = [
   { value: "option1", label: "Option 1" },

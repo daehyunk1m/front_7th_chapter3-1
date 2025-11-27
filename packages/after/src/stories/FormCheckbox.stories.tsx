@@ -29,7 +29,7 @@ const meta = {
 } satisfies Meta<typeof FormCheckbox>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof FormCheckbox>;
 
 // 기본 체크박스
 export const Default: Story = {

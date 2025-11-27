@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { userService } from "../services/userService";
 import { postService } from "../services/postService";
 import type { User } from "../services/userService";
@@ -6,6 +6,8 @@ import type { Post } from "../services/postService";
 
 export type EntityType = "user" | "post";
 export type Entity = User | Post;
+
+export type FormData = Record<string, string | undefined>;
 
 export const useManagement = () => {
   const [entityType, setEntityType] = useState<EntityType>("post");
@@ -18,17 +20,9 @@ export const useManagement = () => {
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<FormData>({});
 
-  useEffect(() => {
-    loadData();
-    setFormData({});
-    setIsCreateModalOpen(false);
-    setIsEditModalOpen(false);
-    setSelectedItem(null);
-  }, [entityType]);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       let result: Entity[];
 
@@ -39,28 +33,36 @@ export const useManagement = () => {
       }
 
       setData(result);
-    } catch (error: any) {
+    } catch {
       setErrorMessage("데이터를 불러오는데 실패했습니다");
       setShowErrorAlert(true);
     }
-  };
+  }, [entityType]);
+
+  useEffect(() => {
+    loadData();
+    setFormData({});
+    setIsCreateModalOpen(false);
+    setIsEditModalOpen(false);
+    setSelectedItem(null);
+  }, [loadData]);
 
   const handleCreate = async () => {
     try {
       if (entityType === "user") {
         await userService.create({
-          username: formData.username,
-          email: formData.email,
-          role: formData.role || "user",
-          status: formData.status || "active",
+          username: formData.username ?? "",
+          email: formData.email ?? "",
+          role: (formData.role ?? "user") as User["role"],
+          status: (formData.status ?? "active") as User["status"],
         });
       } else {
         await postService.create({
-          title: formData.title,
-          content: formData.content || "",
-          author: formData.author,
-          category: formData.category,
-          status: formData.status || "draft",
+          title: formData.title ?? "",
+          content: formData.content ?? "",
+          author: formData.author ?? "",
+          category: formData.category ?? "",
+          status: (formData.status ?? "draft") as Post["status"],
         });
       }
 
@@ -69,8 +71,9 @@ export const useManagement = () => {
       setFormData({});
       setAlertMessage(`${entityType === "user" ? "사용자" : "게시글"}가 생성되었습니다`);
       setShowSuccessAlert(true);
-    } catch (error: any) {
-      setErrorMessage(error.message || "생성에 실패했습니다");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "생성에 실패했습니다";
+      setErrorMessage(message);
       setShowErrorAlert(true);
     }
   };
@@ -105,9 +108,9 @@ export const useManagement = () => {
 
     try {
       if (entityType === "user") {
-        await userService.update(selectedItem.id, formData);
+        await userService.update(selectedItem.id, formData as Partial<Omit<User, "id" | "createdAt">>);
       } else {
-        await postService.update(selectedItem.id, formData);
+        await postService.update(selectedItem.id, formData as Partial<Omit<Post, "id" | "createdAt" | "views">>);
       }
 
       await loadData();
@@ -116,8 +119,9 @@ export const useManagement = () => {
       setSelectedItem(null);
       setAlertMessage(`${entityType === "user" ? "사용자" : "게시글"}가 수정되었습니다`);
       setShowSuccessAlert(true);
-    } catch (error: any) {
-      setErrorMessage(error.message || "수정에 실패했습니다");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "수정에 실패했습니다";
+      setErrorMessage(message);
       setShowErrorAlert(true);
     }
   };
@@ -135,8 +139,9 @@ export const useManagement = () => {
       await loadData();
       setAlertMessage("삭제되었습니다");
       setShowSuccessAlert(true);
-    } catch (error: any) {
-      setErrorMessage(error.message || "삭제에 실패했습니다");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "삭제에 실패했습니다";
+      setErrorMessage(message);
       setShowErrorAlert(true);
     }
   };
@@ -157,8 +162,9 @@ export const useManagement = () => {
       const message = action === "publish" ? "게시" : action === "archive" ? "보관" : "복원";
       setAlertMessage(`${message}되었습니다`);
       setShowSuccessAlert(true);
-    } catch (error: any) {
-      setErrorMessage(error.message || "작업에 실패했습니다");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "작업에 실패했습니다";
+      setErrorMessage(message);
       setShowErrorAlert(true);
     }
   };

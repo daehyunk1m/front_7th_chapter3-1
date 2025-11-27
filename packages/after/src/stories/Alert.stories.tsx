@@ -30,7 +30,7 @@ const meta = {
 } satisfies Meta<typeof Alert>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Alert>;
 
 // 기본 알림
 export const Default: Story = {
