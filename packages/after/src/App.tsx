@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./styles/components.css";
-import { Header } from "./_legacy/organisms";
-import { ManagementPage } from "./pages/ManagementPage";
+// import "./styles/components.css";
 import { cn } from "./lib/utils";
+import { ManagementPage } from "./pages/ManagementPage";
+import { Header } from "./components/header/Header";
 
 export const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);

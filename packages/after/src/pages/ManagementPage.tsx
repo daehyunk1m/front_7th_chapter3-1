@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, Modal } from "../_legacy/organisms";
-import { FormSelect, FormTextarea } from "../_legacy/molecules";
+import { FormTextarea } from "../_legacy/molecules";
 import "../styles/components.css";
 import { useManagement } from "../hooks/useManagement";
 import { useValidation, type FieldType } from "@/hooks/useValidation";
@@ -10,6 +10,7 @@ import type { Post } from "../services/postService";
 import { PostTable } from "@/components/tables/PostTable";
 import { UserTable } from "@/components/tables/UserTable";
 import { FormInput } from "@/components/forms/FormInput";
+import { FormSelect } from "@/components/forms/FormSelect";
 
 export const ManagementPage: React.FC = () => {
   const {
