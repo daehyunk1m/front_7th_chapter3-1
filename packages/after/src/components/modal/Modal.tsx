@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
 import {
   Dialog,
   DialogContent,
@@ -9,21 +10,36 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 
-interface ModalProps {
+const modalVariants = cva(
+  [
+    // 기본 스타일 리셋
+    "p-0 gap-0 border-none",
+    // 커스텀 스타일
+    "bg-background rounded-lg shadow-[0px_11px_15px_-7px_rgba(0,0,0,0.2),0px_24px_38px_3px_rgba(0,0,0,0.14),0px_9px_46px_8px_rgba(0,0,0,0.12)]",
+    "w-full max-h-[90vh] flex flex-col",
+  ],
+  {
+    variants: {
+      size: {
+        small: "max-w-[400px]",
+        medium: "max-w-[600px]",
+        large: "max-w-[900px]",
+      },
+    },
+    defaultVariants: {
+      size: "medium",
+    },
+  }
+);
+
+interface ModalProps extends VariantProps<typeof modalVariants> {
   isOpen: boolean;
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
-  size?: "small" | "medium" | "large";
   showFooter?: boolean;
   footerContent?: React.ReactNode;
 }
-
-const sizeClasses = {
-  small: "max-w-[400px]",
-  medium: "max-w-[600px]",
-  large: "max-w-[900px]",
-};
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
@@ -37,14 +53,7 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
-        className={cn(
-          // 기본 스타일 리셋
-          "p-0 gap-0 border-none",
-          // 커스텀 스타일
-          "bg-background rounded-lg shadow-[0px_11px_15px_-7px_rgba(0,0,0,0.2),0px_24px_38px_3px_rgba(0,0,0,0.14),0px_9px_46px_8px_rgba(0,0,0,0.12)]",
-          "w-full max-h-[90vh] flex flex-col",
-          sizeClasses[size]
-        )}
+        className={cn(modalVariants({ size }))}
         showCloseButton={false}
         aria-describedby={undefined}
       >

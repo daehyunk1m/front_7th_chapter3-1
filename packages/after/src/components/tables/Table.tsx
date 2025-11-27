@@ -1,6 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+
+const tableVariants = cva(
+  [
+    "w-full border-collapse font-sans text-sm bg-background",
+    "[&_th]:p-4 [&_th]:text-left [&_th]:font-medium [&_th]:text-xs [&_th]:text-muted-foreground [&_th]:uppercase [&_th]:tracking-wide [&_th]:border-b-2 [&_th]:border-border",
+    "[&_td]:p-4 [&_td]:text-foreground [&_td]:border-b [&_td]:border-border/50",
+    "[&_thead]:bg-muted",
+    "[&_tbody_tr:last-child_td]:border-b-0",
+  ],
+  {
+    variants: {
+      striped: {
+        true: "[&_tbody_tr:nth-child(even)]:bg-muted",
+        false: "",
+      },
+      bordered: {
+        true: "border border-border [&_th]:border [&_th]:border-border [&_td]:border [&_td]:border-border",
+        false: "",
+      },
+      hover: {
+        true: "[&_tbody_tr:hover]:bg-muted/50",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      striped: false,
+      bordered: false,
+      hover: false,
+    },
+  }
+);
+
+const paginationButtonVariants = cva(
+  "px-3 py-1.5 border border-border bg-background rounded",
+  {
+    variants: {
+      disabled: {
+        true: "cursor-not-allowed opacity-50",
+        false: "cursor-pointer hover:bg-muted",
+      },
+    },
+    defaultVariants: {
+      disabled: false,
+    },
+  }
+);
 
 export interface Column {
   key: string;
@@ -10,12 +57,9 @@ export interface Column {
   render?: (value: any, row: any) => React.ReactNode;
 }
 
-interface TableProps {
+interface TableProps extends VariantProps<typeof tableVariants> {
   columns: Column[];
   data?: any[];
-  striped?: boolean;
-  bordered?: boolean;
-  hover?: boolean;
   pageSize?: number;
   searchable?: boolean;
   sortable?: boolean;
@@ -93,17 +137,7 @@ export const Table: React.FC<TableProps> = ({
         </div>
       )}
       <table
-        className={cn(
-          "w-full border-collapse font-sans text-sm bg-background",
-          bordered && "border border-border",
-          "[&_th]:p-4 [&_th]:text-left [&_th]:font-medium [&_th]:text-xs [&_th]:text-muted-foreground [&_th]:uppercase [&_th]:tracking-wide [&_th]:border-b-2 [&_th]:border-border",
-          "[&_td]:p-4 [&_td]:text-foreground [&_td]:border-b [&_td]:border-border/50",
-          "[&_thead]:bg-muted",
-          "[&_tbody_tr:last-child_td]:border-b-0",
-          striped && "[&_tbody_tr:nth-child(even)]:bg-muted",
-          bordered && "[&_th]:border [&_th]:border-border [&_td]:border [&_td]:border-border",
-          hover && "[&_tbody_tr:hover]:bg-muted/50"
-        )}
+        className={cn(tableVariants({ striped, bordered, hover }))}
       >
         <TableHeader>
           <TableRow>
@@ -154,10 +188,7 @@ export const Table: React.FC<TableProps> = ({
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className={cn(
-              "px-3 py-1.5 border border-border bg-background rounded",
-              currentPage === 1 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-muted"
-            )}
+            className={cn(paginationButtonVariants({ disabled: currentPage === 1 }))}
           >
             이전
           </button>
@@ -167,10 +198,7 @@ export const Table: React.FC<TableProps> = ({
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className={cn(
-              "px-3 py-1.5 border border-border bg-background rounded",
-              currentPage === totalPages ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-muted"
-            )}
+            className={cn(paginationButtonVariants({ disabled: currentPage === totalPages }))}
           >
             다음
           </button>
