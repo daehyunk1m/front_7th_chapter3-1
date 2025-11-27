@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 // Alert - Different styling approach with inconsistent variants
 interface AlertProps {
@@ -8,6 +9,14 @@ interface AlertProps {
   onClose?: () => void;
   showIcon?: boolean;
 }
+
+const variantStyles = {
+  info: 'bg-info-light border-info-border text-info-text',
+  success: 'bg-success-light border-success-border text-success-text',
+  warning: 'bg-warning-light border-warning-border text-warning-text',
+  error: 'bg-danger-light border-danger-border text-danger-text',
+  default: 'bg-muted border-muted-border text-foreground',
+};
 
 export const Alert: React.FC<AlertProps> = ({
   children,
@@ -26,17 +35,23 @@ export const Alert: React.FC<AlertProps> = ({
     }
   };
 
-  const alertClasses = ['alert', `alert-${variant}`].join(' ');
-
   return (
-    <div className={alertClasses}>
-      {showIcon && <div className="alert-icon">{getIcon()}</div>}
-      <div className="alert-content">
-        {title && <div className="alert-title">{title}</div>}
-        <div className="alert-body">{children}</div>
+    <div
+      className={cn(
+        "py-2.5 px-3 mb-4 rounded-sm border font-sans flex gap-2 items-start",
+        variantStyles[variant]
+      )}
+    >
+      {showIcon && <div className="text-xl shrink-0">{getIcon()}</div>}
+      <div className="flex-1">
+        {title && <div className="font-bold mb-1 text-[15px]">{title}</div>}
+        <div className="text-sm leading-normal">{children}</div>
       </div>
       {onClose && (
-        <button onClick={onClose} className="alert-close">
+        <button
+          onClick={onClose}
+          className="bg-transparent border-none cursor-pointer text-xl px-1 ml-auto shrink-0 hover:opacity-70"
+        >
           ×
         </button>
       )}

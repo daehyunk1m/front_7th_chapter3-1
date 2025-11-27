@@ -85,26 +85,26 @@ export const PostTable: React.FC<PostTableProps> = ({
       width: "250px",
       render: (_, row: Post) => {
         return (
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-            <Button size='sm' variant='primary' onClick={() => onEdit?.(row)}>
+          <div className="flex gap-2 flex-wrap">
+            <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
               수정
             </Button>
             {row.status === "draft" && (
-              <Button size='sm' variant='success' onClick={() => onPublish?.(row.id)}>
+              <Button size="sm" variant="success" onClick={() => onPublish?.(row.id)}>
                 게시
               </Button>
             )}
             {row.status === "published" && (
-              <Button size='sm' variant='secondary' onClick={() => onArchive?.(row.id)}>
+              <Button size="sm" variant="secondary" onClick={() => onArchive?.(row.id)}>
                 보관
               </Button>
             )}
             {row.status === "archived" && (
-              <Button size='sm' variant='primary' onClick={() => onRestore?.(row.id)}>
+              <Button size="sm" variant="primary" onClick={() => onRestore?.(row.id)}>
                 복원
               </Button>
             )}
-            <Button size='sm' variant='danger' onClick={() => onDelete?.(row.id)}>
+            <Button size="sm" variant="danger" onClick={() => onDelete?.(row.id)}>
               삭제
             </Button>
           </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 interface CardProps {
   children?: React.ReactNode;
@@ -8,6 +9,13 @@ interface CardProps {
   headerActions?: React.ReactNode;
 }
 
+const variantClasses = {
+  default: 'border border-black/12 shadow-[0px_2px_1px_-1px_rgba(0,0,0,0.2),0px_1px_1px_0px_rgba(0,0,0,0.14),0px_1px_3px_0px_rgba(0,0,0,0.12)]',
+  bordered: 'border border-black/12 shadow-none',
+  elevated: 'border border-black/8 shadow-[0px_2px_4px_-1px_rgba(0,0,0,0.12),0px_1px_2px_0px_rgba(0,0,0,0.08),0px_1px_4px_0px_rgba(0,0,0,0.08)]',
+  flat: 'border border-black/8 shadow-none bg-muted',
+};
+
 export const Card: React.FC<CardProps> = ({
   children,
   title,
@@ -15,20 +23,31 @@ export const Card: React.FC<CardProps> = ({
   variant = 'default',
   headerActions,
 }) => {
-  const cardClasses = ['card', `card-${variant}`].join(' ');
-
   return (
-    <div className={cardClasses}>
+    <div
+      className={cn(
+        "rounded mb-4 overflow-hidden bg-background font-sans",
+        variantClasses[variant]
+      )}
+    >
       {(title || subtitle || headerActions) && (
-        <div className="card-header">
+        <div className="p-5 border-b border-black/8 flex justify-between items-center">
           <div>
-            {title && <h3 className="card-title">{title}</h3>}
-            {subtitle && <p className="card-subtitle">{subtitle}</p>}
+            {title && (
+              <h3 className="m-0 text-lg font-medium leading-relaxed text-black/87">
+                {title}
+              </h3>
+            )}
+            {subtitle && (
+              <p className="mt-1 mb-0 text-sm font-normal leading-snug text-black/60">
+                {subtitle}
+              </p>
+            )}
           </div>
           {headerActions && <div>{headerActions}</div>}
         </div>
       )}
-      <div className="card-body">{children}</div>
+      <div className="p-5">{children}</div>
     </div>
   );
 };

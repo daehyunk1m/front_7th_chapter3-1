@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { cn } from "@/lib/utils";
 
 export interface Column {
   key: string;
@@ -78,46 +79,45 @@ export const Table: React.FC<TableProps> = ({
 
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
-  const tableClasses = [
-    "table",
-    striped && "table-striped",
-    bordered && "table-bordered",
-    hover && "table-hover",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
   return (
-    <div className='table-container'>
+    <div className="overflow-x-auto">
       {searchable && (
-        <div className='mb-4'>
+        <div className="mb-4">
           <input
-            className='w-[300px] px-3 py-2 border border-border rounded-[4px]'
-            type='text'
-            placeholder='검색...'
+            className="w-[300px] px-3 py-2 border border-border rounded text-sm font-sans text-foreground bg-background focus:border-primary focus:outline-none"
+            type="text"
+            placeholder="검색..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       )}
-      <table className={tableClasses}>
+      <table
+        className={cn(
+          "w-full border-collapse font-sans text-sm bg-background",
+          bordered && "border border-border",
+          "[&_th]:p-4 [&_th]:text-left [&_th]:font-medium [&_th]:text-xs [&_th]:text-muted-foreground [&_th]:uppercase [&_th]:tracking-wide [&_th]:border-b-2 [&_th]:border-border",
+          "[&_td]:p-4 [&_td]:text-foreground [&_td]:border-b [&_td]:border-border/50",
+          "[&_thead]:bg-muted",
+          "[&_tbody_tr:last-child_td]:border-b-0",
+          striped && "[&_tbody_tr:nth-child(even)]:bg-muted",
+          bordered && "[&_th]:border [&_th]:border-border [&_td]:border [&_td]:border-border",
+          hover && "[&_tbody_tr:hover]:bg-muted/50"
+        )}
+      >
         <TableHeader>
           <TableRow>
             {columns.map((column) => (
               <TableHead
                 key={column.key}
-                className={""}
                 style={column.width ? { width: column.width } : undefined}
                 onClick={() => sortable && handleSort(column.key)}
               >
                 <div
-                  className={""}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "4px",
-                    cursor: sortable ? "pointer" : "default",
-                  }}
+                  className={cn(
+                    "flex items-center gap-1",
+                    sortable ? "cursor-pointer" : "cursor-default"
+                  )}
                 >
                   {column.header}
                   {sortable && sortColumn === column.key && (
@@ -132,7 +132,7 @@ export const Table: React.FC<TableProps> = ({
           {paginatedData.map((row, rowIndex) => (
             <TableRow
               key={rowIndex}
-              style={{ cursor: onRowClick ? "pointer" : "default" }}
+              className={onRowClick ? "cursor-pointer" : "cursor-default"}
               onClick={() => onRowClick?.(row)}
             >
               {columns.map((column) => (
@@ -150,40 +150,27 @@ export const Table: React.FC<TableProps> = ({
       </table>
 
       {totalPages > 1 && (
-        <div
-          style={{
-            marginTop: "16px",
-            display: "flex",
-            gap: "8px",
-            justifyContent: "center",
-          }}
-        >
+        <div className="mt-4 flex gap-2 justify-center">
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            style={{
-              padding: "6px 12px",
-              border: "1px solid #ddd",
-              background: "white",
-              borderRadius: "4px",
-              cursor: currentPage === 1 ? "not-allowed" : "pointer",
-            }}
+            className={cn(
+              "px-3 py-1.5 border border-border bg-background rounded",
+              currentPage === 1 ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-muted"
+            )}
           >
             이전
           </button>
-          <span style={{ padding: "6px 12px" }}>
+          <span className="px-3 py-1.5">
             {currentPage} / {totalPages}
           </span>
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            style={{
-              padding: "6px 12px",
-              border: "1px solid #ddd",
-              background: "white",
-              borderRadius: "4px",
-              cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-            }}
+            className={cn(
+              "px-3 py-1.5 border border-border bg-background rounded",
+              currentPage === totalPages ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-muted"
+            )}
           >
             다음
           </button>
@@ -192,9 +179,3 @@ export const Table: React.FC<TableProps> = ({
     </div>
   );
 };
-
-// const actualColumns =
-//   columns ||
-//   (tableData[0]
-//     ? Object.keys(tableData[0]).map((key) => ({ key, header: key, width: undefined }))
-//     : []);

@@ -84,11 +84,11 @@ export const UserTable: React.FC<UserTableProps> = ({
       width: "200px",
       render: (_, row: User) => {
         return (
-          <div style={{ display: "flex", gap: "8px" }}>
-            <Button size='sm' variant='primary' onClick={() => onEdit?.(row)}>
+          <div className="flex gap-2">
+            <Button size="sm" variant="primary" onClick={() => onEdit?.(row)}>
               수정
             </Button>
-            <Button size='sm' variant='danger' onClick={() => onDelete?.(row.id)}>
+            <Button size="sm" variant="danger" onClick={() => onDelete?.(row.id)}>
               삭제
             </Button>
           </div>

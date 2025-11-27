@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 // Textarea Component - Yet another inconsistent API
 interface FormTextareaProps {
@@ -26,15 +27,12 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
   helpText,
   rows = 4,
 }) => {
-  const textareaClasses = ['form-textarea', error && 'error'].filter(Boolean).join(' ');
-  const helperClasses = ['form-helper-text', error && 'error'].filter(Boolean).join(' ');
-
   return (
-    <div className="form-group">
+    <div className="mb-4">
       {label && (
-        <label className="form-label">
+        <label className="block mb-1.5 text-foreground text-[13px] font-bold font-sans">
           {label}
-          {required && <span style={{ color: '#d32f2f' }}>*</span>}
+          {required && <span className="text-danger">*</span>}
         </label>
       )}
 
@@ -46,11 +44,22 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
         required={required}
         disabled={disabled}
         rows={rows}
-        className={textareaClasses}
+        className={cn(
+          "w-full min-h-[6em] px-3.5 py-4 text-base font-sans font-normal leading-tight text-foreground",
+          "border border-border rounded bg-background box-border resize-y outline-none",
+          "transition-colors duration-200",
+          "focus:border-primary focus:border-2 focus:px-[13px] focus:py-[15px]",
+          "disabled:bg-muted/50",
+          error && "border-danger"
+        )}
       />
 
-      {error && <span className={helperClasses}>{error}</span>}
-      {helpText && !error && <span className="form-helper-text">{helpText}</span>}
+      {error && (
+        <span className="block mt-1 text-xs font-sans text-danger">{error}</span>
+      )}
+      {helpText && !error && (
+        <span className="block mt-1 text-xs font-sans text-muted-foreground">{helpText}</span>
+      )}
     </div>
   );
 };

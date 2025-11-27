@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 // 🚨 Bad Practice: UI 컴포넌트가 도메인 규칙을 알고 있음
 interface FormInputProps {
@@ -19,6 +20,13 @@ interface FormInputProps {
   entityType?: 'user' | 'post'; // 엔티티 타입까지 알고 있음
   checkBusinessRules?: boolean; // 비즈니스 규칙 검사 여부
 }
+
+const widthClasses = {
+  small: 'w-[200px]',
+  medium: 'w-[300px]',
+  large: 'w-[400px]',
+  full: 'w-full',
+};
 
 export const FormInput: React.FC<FormInputProps> = ({
   name,
@@ -97,15 +105,13 @@ export const FormInput: React.FC<FormInputProps> = ({
   };
 
   const displayError = error || internalError;
-  const inputClasses = ['form-input', displayError && 'error', `input-width-${width}`].filter(Boolean).join(' ');
-  const helperClasses = ['form-helper-text', displayError && 'error'].filter(Boolean).join(' ');
 
   return (
-    <div className="form-group">
+    <div className="mb-4">
       {label && (
-        <label htmlFor={name} className="form-label">
+        <label htmlFor={name} className="block mb-1.5 text-foreground text-[13px] font-bold font-sans">
           {label}
-          {required && <span style={{ color: '#d32f2f' }}>*</span>}
+          {required && <span className="text-danger">*</span>}
         </label>
       )}
 
@@ -118,11 +124,21 @@ export const FormInput: React.FC<FormInputProps> = ({
         placeholder={placeholder}
         required={required}
         disabled={disabled}
-        className={inputClasses}
+        className={cn(
+          "px-2.5 py-2 text-sm font-sans text-foreground border border-border rounded-sm bg-background box-border",
+          "focus:border-primary focus:outline-none",
+          "disabled:bg-muted disabled:cursor-not-allowed",
+          displayError && "border-danger",
+          widthClasses[width]
+        )}
       />
 
-      {displayError && <span className={helperClasses}>{displayError}</span>}
-      {helpText && !displayError && <span className="form-helper-text">{helpText}</span>}
+      {displayError && (
+        <span className="block mt-1 text-xs font-sans text-danger">{displayError}</span>
+      )}
+      {helpText && !displayError && (
+        <span className="block mt-1 text-xs font-sans text-muted-foreground">{helpText}</span>
+      )}
     </div>
   );
 };
