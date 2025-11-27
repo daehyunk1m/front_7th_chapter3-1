@@ -10,21 +10,15 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
+      "@": path.resolve(__dirname, "./src")
+    }
   },
   base,
   build: {
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, "index.html"),
-      },
-    },
-  },
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: "./src/test/setup.ts",
-    css: true,
+        main: path.resolve(__dirname, "index.html")
+      }
+    }
   },
 });
