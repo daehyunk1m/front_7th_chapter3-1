@@ -1,0 +1,24 @@
+{
+  "sessionId": null,
+  "startTime": null,
+  "endTime": null,
+  "status": "idle",
+  "sessionNumber": 0,
+  "currentPhase": null,
+  "metadata": {
+    "tasksWorkedOn": [],
+    "tasksCompleted": [],
+    "questionsAsked": 0,
+    "conceptsLearned": 0,
+    "problemsSolved": 0,
+    "commitsCount": 0
+  },
+  "conversations": [],
+  "codeChanges": [],
+  "commits": [],
+  "questions": [],
+  "concepts": [],
+  "problems": [],
+  "notes": [],
+  "lastSessionEnd": null
+}
