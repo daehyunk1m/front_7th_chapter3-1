@@ -1,7 +1,7 @@
-import React from 'react';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { cn } from "@/lib/utils";
+import { Textarea } from "../ui/textarea";
 
-// Textarea Component - Yet another inconsistent API
 interface FormTextareaProps {
   name: string;
   value: string;
@@ -28,15 +28,15 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
   rows = 4,
 }) => {
   return (
-    <div className="mb-4">
+    <div className='mb-4'>
       {label && (
-        <label className="block mb-1.5 text-foreground text-[13px] font-bold font-sans">
+        <label className='block mb-1.5 text-foreground text-[13px] font-bold font-sans'>
           {label}
-          {required && <span className="text-danger">*</span>}
+          {required && <span className='text-danger'>*</span>}
         </label>
       )}
 
-      <textarea
+      <Textarea
         name={name}
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -54,11 +54,9 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
         )}
       />
 
-      {error && (
-        <span className="block mt-1 text-xs font-sans text-danger">{error}</span>
-      )}
+      {error && <span className='block mt-1 text-xs font-sans text-danger'>{error}</span>}
       {helpText && !error && (
-        <span className="block mt-1 text-xs font-sans text-muted-foreground">{helpText}</span>
+        <span className='block mt-1 text-xs font-sans text-muted-foreground'>{helpText}</span>
       )}
     </div>
   );

@@ -1,7 +1,5 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Alert, Modal } from "../_legacy/organisms";
-import { FormTextarea } from "../_legacy/molecules";
 import "../styles/components.css";
 import { useManagement } from "../hooks/useManagement";
 import { useValidation, type FieldType } from "@/hooks/useValidation";
@@ -11,6 +9,9 @@ import { PostTable } from "@/components/tables/PostTable";
 import { UserTable } from "@/components/tables/UserTable";
 import { FormInput } from "@/components/forms/FormInput";
 import { FormSelect } from "@/components/forms/FormSelect";
+import { FormTextarea } from "@/components/forms/FormTextarea";
+import { Modal } from "@/components/modal/Modal";
+import { Alert } from "@/components/alert/Alert";
 
 export const ManagementPage: React.FC = () => {
   const {
